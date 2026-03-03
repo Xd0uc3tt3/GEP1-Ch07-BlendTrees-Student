@@ -8023,6 +8023,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   moveInput: {x: 0, y: 0}
+  animator: {fileID: 1086994860}
 --- !u!50 &991472019
 Rigidbody2D:
   serializedVersion: 5

@@ -8,9 +8,9 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D playerRb;
 
+    public Animator animator;
 
-
-
+    private Vector2 lastMove = Vector2.down;
 
 
     private void Awake()
@@ -18,12 +18,14 @@ public class PlayerController : MonoBehaviour
         playerRb = GetComponent<Rigidbody2D>();
         if (playerRb == null) Debug.LogError("Rigidbody2D component not found on the player object.");
 
+        animator = GetComponentInChildren<Animator>();
+
     }
 
 
     private void Update()
     {
-
+        UpdateAnimatorParameters();
     }
 
     private void FixedUpdate()
@@ -46,6 +48,21 @@ public class PlayerController : MonoBehaviour
         playerRb.MovePosition(playerRb.position + moveInput * moveSpeed * Time.fixedDeltaTime);
     }
 
+    private void UpdateAnimatorParameters()
+    {
+        bool isMoving = moveInput.sqrMagnitude > 0.01f;
+
+        animator.SetBool("IsMoving", isMoving);
+        animator.SetFloat("MoveInputX", moveInput.x);
+        animator.SetFloat("MoveInputY", moveInput.y);
+
+        if (isMoving)
+        {
+            lastMove = moveInput.normalized;
+            animator.SetFloat("LastMoveX", lastMove.x);
+            animator.SetFloat("LastMoveY", lastMove.y);
+        }
+    }
 
 
 
